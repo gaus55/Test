@@ -40,6 +40,7 @@ class productTblCell: UITableViewCell{
 ///for table view cell for single product
 class productSingleCell: UITableViewCell{
     @IBOutlet weak var lblProductName: UILabel!
+     @IBOutlet weak var imgView: UIImageView!
 }
 
 //MARK:- productList CollectionView cell

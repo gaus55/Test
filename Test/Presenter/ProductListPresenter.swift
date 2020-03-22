@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
 class ProductListPresenter: NSObject{
     
@@ -17,6 +18,12 @@ class ProductListPresenter: NSObject{
     var arrHeaderSelection = [headerSelected]()
     var arrCategoryName = [String]()
     var showTableView = false
+    var arrImage = ["http://farm66.staticflickr.com/65535/49686378713_c6c31126f9.jpg",
+                    "http://farm66.staticflickr.com/65535/49686379188_4d8000f0b5.jpg",
+                    "http://farm66.staticflickr.com/65535/49686911721_592d03ac8a.jpg",
+                    "http://farm66.staticflickr.com/65535/49686913241_36fd944949.jpg",
+                    "http://farm66.staticflickr.com/65535/49687213767_41c9d67291.jpg",
+                    "http://farm66.staticflickr.com/65535/49687214082_830fe29fe4.jpg"]
     
     //MARK:- initilization for presenter
     func setPresenterPreference(){
@@ -25,8 +32,15 @@ class ProductListPresenter: NSObject{
         self.viewParent?.productTableView.dropDelegate = self
         self.viewParent?.productTableView.dragDelegate = self
         self.viewParent?.productTableView.dragInteractionEnabled = true
-        getProductList()
         self.viewParent?.switchView.addTarget(self, action: #selector(switchTapped(sender:)), for: .touchUpInside)
+        getProductList()
+        NotificationCenter.default.addObserver(self, selector: #selector(updatedImageView), name: NSNotification.Name(rawValue: "imageEdited"), object: nil)
+    }
+    
+    @objc func updatedImageView(){
+        DispatchQueue.main.async {
+            self.viewParent?.productTableView.reloadData()
+        }
     }
     
     @objc func switchTapped(sender: UISwitch){
@@ -52,8 +66,10 @@ extension ProductListPresenter: UITableViewDelegate, UITableViewDataSource{
         
         if self.showTableView == true{ /// for table view cell
             guard let cell = self.viewParent?.productTableView.dequeueReusableCell(withIdentifier: "productSingleCell") as? productSingleCell else{return UITableViewCell()}
-            let ent = self.groupedArr[self.arrCategoryName[indexPath.section]]
-            cell.lblProductName.text = ent?[indexPath.row].name
+            let ent = self.groupedArr[self.arrCategoryName[indexPath.section]]?[indexPath.row]
+            cell.lblProductName.text = ent?.name
+            cell.imgView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            cell.imgView.sd_setImage(with: URL(string: ent?.imgPath ?? ""), placeholderImage: UIImage(named: "book.png"))
             return cell
         }
         
@@ -73,7 +89,7 @@ extension ProductListPresenter: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if self.showTableView == true{
             if self.arrHeaderSelection[indexPath.section].sectionExpanded == true{
-                 return 40
+                 return 60
             }
             return 0
         }
@@ -110,8 +126,11 @@ extension ProductListPresenter: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(self.groupedArr[self.arrCategoryName[indexPath.section]]?[indexPath.row])
+        let vc = self.viewParent?.storyboard?.instantiateViewController(identifier: "ProductDetailsVC") as! ProductDetailsVC
+        vc.strImgPath = self.groupedArr[self.arrCategoryName[indexPath.section]]?[indexPath.row].imgPath ?? ""
+        self.viewParent?.navigationController?.pushViewController(vc, animated: true)
     }
+
 }
 
 extension ProductListPresenter: UITableViewDragDelegate, UITableViewDropDelegate{
@@ -175,13 +194,17 @@ extension ProductListPresenter: UICollectionViewDelegate, UICollectionViewDataSo
        
        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "productListColCell", for: indexPath) as? productListColCell else{return UICollectionViewCell()}
-        let ent = self.groupedArr[self.arrCategoryName[collectionView.tag]]
-        cell.lblProductName.text = ent?[indexPath.item].name
+        let ent = self.groupedArr[self.arrCategoryName[collectionView.tag]]?[indexPath.item]
+        cell.lblProductName.text = ent?.name
+        cell.imgView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+        cell.imgView.sd_setImage(with: URL(string: ent?.imgPath ?? ""), placeholderImage: UIImage(named: "book.png"))
         return cell
        }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(self.groupedArr[self.arrCategoryName[collectionView.tag]]?[indexPath.item])
+        let vc = self.viewParent?.storyboard?.instantiateViewController(identifier: "ProductDetailsVC") as! ProductDetailsVC
+        vc.strImgPath = self.groupedArr[self.arrCategoryName[collectionView.tag]]?[indexPath.item].imgPath ?? ""
+        self.viewParent?.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -257,7 +280,9 @@ extension ProductListPresenter{
                     for obj in  productArr{
                         for ent in obj.products{
                             self.arrCategoryName.append(obj.name ?? "")
-                            arrProductList.append(product(sku: ent.sku, name: ent.name, cost: ent.cost, category: obj.name))
+                            guard let strImgPath = self.arrImage.randomElement() else{return}
+                            arrProductList.append(product(sku: ent.sku, name: ent.name, cost: ent.cost, category: obj.name, imgPath: strImgPath))
+                            
                         }
                     }
                     

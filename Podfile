@@ -6,6 +6,8 @@ target 'Test' do
   use_frameworks!
 
 	pod 'SDWebImage', '~> 5.0'
+	pod 'TOCropViewController'
+  
   # Pods for Test
 
 end

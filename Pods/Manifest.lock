@@ -2,17 +2,21 @@ PODS:
   - SDWebImage (5.2.5):
     - SDWebImage/Core (= 5.2.5)
   - SDWebImage/Core (5.2.5)
+  - TOCropViewController (2.5.2)
 
 DEPENDENCIES:
   - SDWebImage (~> 5.0)
+  - TOCropViewController
 
 SPEC REPOS:
   trunk:
     - SDWebImage
+    - TOCropViewController
 
 SPEC CHECKSUMS:
   SDWebImage: 4eabf2fa6695c95c47724214417a9c036c965e4a
+  TOCropViewController: e9da34f484aedd4e5d5a8ab230ba217cfe16c729
 
-PODFILE CHECKSUM: de19756cf59ed17ac515cdcedc3d30b7dce63e51
+PODFILE CHECKSUM: b94becec2be7ffbe9b1bd8e3cde38492ae9461c0
 
 COCOAPODS: 1.8.4

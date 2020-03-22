@@ -29,6 +29,7 @@ struct product: Decodable{
     let name: String?
     let cost: Int?
     let category: String?
+    let imgPath: String?
 }
 
 struct headerSelected{

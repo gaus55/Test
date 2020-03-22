@@ -202,9 +202,14 @@ extension ProductListPresenter: UICollectionViewDelegate, UICollectionViewDataSo
        }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = self.viewParent?.storyboard?.instantiateViewController(identifier: "ProductDetailsVC") as! ProductDetailsVC
-        vc.strImgPath = self.groupedArr[self.arrCategoryName[collectionView.tag]]?[indexPath.item].imgPath ?? ""
-        self.viewParent?.navigationController?.pushViewController(vc, animated: true)
+        guard let colCell = collectionView.cellForItem(at: indexPath) as? productListColCell else{return}
+        UIView.transition(with: colCell.viwOuter, duration: 2, options: .transitionFlipFromBottom, animations: nil, completion: { (done) in
+            let vc = self.viewParent?.storyboard?.instantiateViewController(identifier: "ProductDetailsVC") as! ProductDetailsVC
+            vc.strImgPath = self.groupedArr[self.arrCategoryName[collectionView.tag]]?[indexPath.item].imgPath ?? ""
+            self.viewParent?.navigationController?.pushViewController(vc, animated: true)
+        })
+       
+
     }
 }
 

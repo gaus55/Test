@@ -47,43 +47,66 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="94" height="98"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <subviews>
-                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="book" catalog="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Z0-S2-q4f" customClass="GACustomImageView" customModule="Test" customModuleProvider="target">
-                                                                                <rect key="frame" x="0.0" y="1.5" width="94" height="95"/>
-                                                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium"/>
+                                                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bpy-wp-7q0" customClass="GACustomView" customModule="Test" customModuleProvider="target">
+                                                                                <rect key="frame" x="2" y="1" width="91" height="96"/>
+                                                                                <subviews>
+                                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="book" catalog="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Z0-S2-q4f" customClass="GACustomImageView" customModule="Test" customModuleProvider="target">
+                                                                                        <rect key="frame" x="0.0" y="1.5" width="91" height="93"/>
+                                                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium"/>
+                                                                                        <userDefinedRuntimeAttributes>
+                                                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                                <real key="value" value="8"/>
+                                                                                            </userDefinedRuntimeAttribute>
+                                                                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                                                <real key="value" value="0.0"/>
+                                                                                            </userDefinedRuntimeAttribute>
+                                                                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                            </userDefinedRuntimeAttribute>
+                                                                                        </userDefinedRuntimeAttributes>
+                                                                                    </imageView>
+                                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4KT-iD-3rS">
+                                                                                        <rect key="frame" x="2" y="72.5" width="87" height="21.5"/>
+                                                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                                                        <color key="textColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                        <nil key="highlightedColor"/>
+                                                                                    </label>
+                                                                                </subviews>
+                                                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="trailing" secondItem="6Z0-S2-q4f" secondAttribute="trailing" id="3UG-4w-846"/>
+                                                                                    <constraint firstAttribute="bottom" secondItem="4KT-iD-3rS" secondAttribute="bottom" constant="2" id="Nos-iO-bUZ"/>
+                                                                                    <constraint firstItem="4KT-iD-3rS" firstAttribute="leading" secondItem="bpy-wp-7q0" secondAttribute="leading" constant="2" id="Vu4-gS-uSc"/>
+                                                                                    <constraint firstAttribute="trailing" secondItem="4KT-iD-3rS" secondAttribute="trailing" constant="2" id="WvO-Nb-Hew"/>
+                                                                                    <constraint firstAttribute="bottom" secondItem="6Z0-S2-q4f" secondAttribute="bottom" id="lDk-nK-UzT"/>
+                                                                                    <constraint firstItem="6Z0-S2-q4f" firstAttribute="top" secondItem="bpy-wp-7q0" secondAttribute="top" id="w4T-is-S4P"/>
+                                                                                    <constraint firstItem="6Z0-S2-q4f" firstAttribute="leading" secondItem="bpy-wp-7q0" secondAttribute="leading" id="yAS-Xc-6Zn"/>
+                                                                                </constraints>
                                                                                 <userDefinedRuntimeAttributes>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                                        <real key="value" value="8"/>
-                                                                                    </userDefinedRuntimeAttribute>
                                                                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                                                         <real key="value" value="1"/>
                                                                                     </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                        <real key="value" value="8"/>
+                                                                                    </userDefinedRuntimeAttribute>
                                                                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                                        <color key="value" red="0.0" green="0.6705882353" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                        <color key="value" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                     </userDefinedRuntimeAttribute>
                                                                                 </userDefinedRuntimeAttributes>
-                                                                            </imageView>
-                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4KT-iD-3rS">
-                                                                                <rect key="frame" x="5" y="76.5" width="84" height="19.5"/>
-                                                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                                                <color key="textColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <nil key="highlightedColor"/>
-                                                                            </label>
+                                                                            </view>
                                                                         </subviews>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="bottom" secondItem="4KT-iD-3rS" secondAttribute="bottom" constant="2" id="85G-PM-8oT"/>
-                                                                            <constraint firstAttribute="trailing" secondItem="6Z0-S2-q4f" secondAttribute="trailing" id="EkO-9P-Xwz"/>
-                                                                            <constraint firstItem="4KT-iD-3rS" firstAttribute="centerX" secondItem="DYZ-Bg-xqO" secondAttribute="centerX" id="EnS-pH-hw5"/>
-                                                                            <constraint firstAttribute="trailing" secondItem="4KT-iD-3rS" secondAttribute="trailing" constant="5" id="IqE-Yl-xti"/>
-                                                                            <constraint firstAttribute="bottom" secondItem="6Z0-S2-q4f" secondAttribute="bottom" id="TLf-0D-agd"/>
-                                                                            <constraint firstItem="4KT-iD-3rS" firstAttribute="leading" secondItem="DYZ-Bg-xqO" secondAttribute="leading" constant="5" id="iLQ-c2-ZXT"/>
-                                                                            <constraint firstItem="6Z0-S2-q4f" firstAttribute="leading" secondItem="DYZ-Bg-xqO" secondAttribute="leading" id="iiX-jM-JXJ"/>
-                                                                            <constraint firstItem="6Z0-S2-q4f" firstAttribute="top" secondItem="DYZ-Bg-xqO" secondAttribute="top" id="lIk-bT-Yqy"/>
+                                                                            <constraint firstItem="bpy-wp-7q0" firstAttribute="top" secondItem="DYZ-Bg-xqO" secondAttribute="top" constant="1" id="A9M-3e-JhA"/>
+                                                                            <constraint firstItem="bpy-wp-7q0" firstAttribute="leading" secondItem="DYZ-Bg-xqO" secondAttribute="leading" constant="2" id="FUE-zD-5mb"/>
+                                                                            <constraint firstAttribute="bottom" secondItem="bpy-wp-7q0" secondAttribute="bottom" constant="1" id="RII-Dg-kqu"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="bpy-wp-7q0" secondAttribute="trailing" constant="1" id="dAI-om-BtD"/>
                                                                         </constraints>
                                                                     </collectionViewCellContentView>
                                                                     <size key="customSize" width="94" height="98"/>
                                                                     <connections>
                                                                         <outlet property="imgView" destination="6Z0-S2-q4f" id="PP2-Tr-G2N"/>
                                                                         <outlet property="lblProductName" destination="4KT-iD-3rS" id="iNX-BR-QIg"/>
+                                                                        <outlet property="viwOuter" destination="bpy-wp-7q0" id="8RJ-wi-nrp"/>
                                                                     </connections>
                                                                 </collectionViewCell>
                                                             </cells>

@@ -47,4 +47,5 @@ class productSingleCell: UITableViewCell{
 class productListColCell:UICollectionViewCell{
     @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var lblProductName: UILabel!
+    @IBOutlet weak var viwOuter: UIView!
 }

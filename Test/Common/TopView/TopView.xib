@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TopView" customModule="FintooTest" customModuleProvider="target">
+            <connections>
+                <outlet property="btnMenu" destination="fAx-gH-0Tp" id="2cJ-3X-qtD"/>
+                <outlet property="contentView" destination="FVy-zz-hMW" id="Y8q-CK-mNR"/>
+                <outlet property="imgMenu" destination="tsw-5k-AHq" id="6cX-JK-0cI"/>
+                <outlet property="lblTitle" destination="sGS-1W-fIk" id="k5y-MN-WF5"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="FVy-zz-hMW" userLabel="TopView">
+            <rect key="frame" x="0.0" y="0.0" width="490" height="64"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Menu" translatesAutoresizingMaskIntoConstraints="NO" id="tsw-5k-AHq">
+                    <rect key="frame" x="20" y="34" width="16" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="16" id="BUs-Ni-svy"/>
+                        <constraint firstAttribute="height" constant="16" id="j3C-L7-JHG"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movies" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sGS-1W-fIk">
+                    <rect key="frame" x="56" y="28.5" width="66" height="27.5"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="20"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fAx-gH-0Tp">
+                    <rect key="frame" x="8" y="22" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="MXS-D6-RkU"/>
+                        <constraint firstAttribute="width" constant="40" id="S0R-I5-vhe"/>
+                    </constraints>
+                </button>
+            </subviews>
+            <color key="backgroundColor" name="viewColor"/>
+            <constraints>
+                <constraint firstItem="sGS-1W-fIk" firstAttribute="leading" secondItem="tsw-5k-AHq" secondAttribute="trailing" constant="20" id="0OD-EJ-iVd"/>
+                <constraint firstAttribute="bottom" secondItem="fAx-gH-0Tp" secondAttribute="bottom" constant="2" id="EYA-18-cLJ"/>
+                <constraint firstItem="tsw-5k-AHq" firstAttribute="centerY" secondItem="fAx-gH-0Tp" secondAttribute="centerY" id="HMM-ED-n93"/>
+                <constraint firstItem="sGS-1W-fIk" firstAttribute="centerY" secondItem="tsw-5k-AHq" secondAttribute="centerY" id="Iug-fY-fTn"/>
+                <constraint firstItem="tsw-5k-AHq" firstAttribute="leading" secondItem="imE-Zg-Re2" secondAttribute="leading" constant="20" id="qx0-7g-rHn"/>
+                <constraint firstItem="tsw-5k-AHq" firstAttribute="centerX" secondItem="fAx-gH-0Tp" secondAttribute="centerX" id="v2c-uq-E3R"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="imE-Zg-Re2"/>
+            <point key="canvasLocation" x="-401.44927536231887" y="-3.3482142857142856"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Menu" width="32" height="32"/>
+        <namedColor name="viewColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

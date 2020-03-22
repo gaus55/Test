@@ -22,6 +22,9 @@ class ProductListPresenter: NSObject{
     func setPresenterPreference(){
         self.viewParent?.productTableView.delegate = self
         self.viewParent?.productTableView.dataSource = self
+        self.viewParent?.productTableView.dropDelegate = self
+        self.viewParent?.productTableView.dragDelegate = self
+        self.viewParent?.productTableView.dragInteractionEnabled = true
         getProductList()
         self.viewParent?.switchView.addTarget(self, action: #selector(switchTapped(sender:)), for: .touchUpInside)
     }
@@ -105,8 +108,60 @@ extension ProductListPresenter: UITableViewDelegate, UITableViewDataSource{
         headerView.btnDownArrow.addTarget(self, action: #selector(dropDownTapped(sender:)), for: .touchUpInside)
         return headerView
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(self.groupedArr[self.arrCategoryName[indexPath.section]]?[indexPath.row])
+    }
 }
 
+extension ProductListPresenter: UITableViewDragDelegate, UITableViewDropDelegate{
+    //MARK:- table view drag and drop delegate
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        let item = self.groupedArr[self.arrCategoryName[indexPath.section]]?[indexPath.item]
+        let itemProvider = NSItemProvider(item: item as? NSSecureCoding, typeIdentifier: item?.name)
+        let dragItem = UIDragItem(itemProvider: itemProvider)
+        dragItem.localObject = item
+        return [dragItem]
+    }
+    
+    func tableView(_ tableView: UITableView,
+           dropSessionDidUpdate session: UIDropSession,
+           withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal{
+           if tableView.hasActiveDrag{
+               return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+           }
+           return UITableViewDropProposal(operation: .forbidden)
+       }
+    
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        var destinationIndexPath = IndexPath()
+        if let indexPath = coordinator.destinationIndexPath{
+            destinationIndexPath = indexPath
+        }else{
+            let row = tableView.numberOfRows(inSection: 0)
+            destinationIndexPath = IndexPath(row: row - 1, section: 0)
+        }
+        
+        if coordinator.proposal.operation == .move{
+            self.reorderItemsTableView(coordinator: coordinator, destinationPath: destinationIndexPath, tableView: tableView, section: destinationIndexPath.section)
+        }
+    }
+    
+    fileprivate func reorderItemsTableView(coordinator:UITableViewDropCoordinator, destinationPath: IndexPath, tableView: UITableView, section: Int){
+        
+        if let item = coordinator.items.first, let sourceIndexPath = item.sourceIndexPath{
+            tableView.performBatchUpdates({
+                self.groupedArr[self.arrCategoryName[section]]?.remove(at: sourceIndexPath.item)
+                self.groupedArr[self.arrCategoryName[section]]?.insert(item.dragItem.localObject as! product, at: destinationPath.item)
+                tableView.deleteRows(at: [sourceIndexPath], with: UITableView.RowAnimation.automatic)
+                tableView.insertRows(at: [destinationPath], with: UITableView.RowAnimation.automatic)
+                
+            }, completion: nil)
+            coordinator.drop(item.dragItem, toRowAt: destinationPath)
+        }
+    }
+    
+}
 extension ProductListPresenter: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     //MARK:- collection view delegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -59,7 +59,10 @@ extension ProductListPresenter: UITableViewDelegate, UITableViewDataSource{
                    cell.productListCollectionView.tag = indexPath.section
                    cell.productListCollectionView.delegate = self
                    cell.productListCollectionView.dataSource = self
+                   cell.productListCollectionView.dragDelegate = self
+                   cell.productListCollectionView.dropDelegate = self
                    cell.productListCollectionView.reloadData()
+        cell.productListCollectionView.dragInteractionEnabled = true
         return cell
     }
     
@@ -122,6 +125,59 @@ extension ProductListPresenter: UICollectionViewDelegate, UICollectionViewDataSo
         return cell
        }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(self.groupedArr[self.arrCategoryName[collectionView.tag]]?[indexPath.item])
+    }
+}
+
+extension ProductListPresenter: UICollectionViewDropDelegate,UICollectionViewDragDelegate{
+    //MARK:- collection view drag and drop delegate
+    
+    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        var destinationIndexPath = IndexPath()
+        if let indexPath = coordinator.destinationIndexPath{
+            destinationIndexPath = indexPath
+        }else{
+            let row = collectionView.numberOfItems(inSection: 0)
+            destinationIndexPath = IndexPath(row: row - 1, section: 0)
+        }
+        
+        if coordinator.proposal.operation == .move{
+            self.reorderItems(coordinator: coordinator, destinationPath: destinationIndexPath, collectionView: collectionView)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+        dropSessionDidUpdate session: UIDropSession,
+        withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal{
+        if collectionView.hasActiveDrag{
+            return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+        }
+        return UICollectionViewDropProposal(operation: .forbidden)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        let item = self.groupedArr[self.arrCategoryName[collectionView.tag]]?[indexPath.item]
+        let itemProvider = NSItemProvider(item: item as? NSSecureCoding, typeIdentifier: item?.name)
+        let dragItem = UIDragItem(itemProvider: itemProvider)
+        dragItem.localObject = item
+        return [dragItem]
+    }
+    
+    fileprivate func reorderItems(coordinator:UICollectionViewDropCoordinator, destinationPath: IndexPath, collectionView: UICollectionView){
+        
+        if let item = coordinator.items.first, let sourceIndexPath = item.sourceIndexPath{
+            collectionView.performBatchUpdates({
+                self.groupedArr[self.arrCategoryName[collectionView.tag]]?.remove(at: sourceIndexPath.item)
+                self.groupedArr[self.arrCategoryName[collectionView.tag]]?.insert(item.dragItem.localObject as! product, at: destinationPath.item)
+                collectionView.deleteItems(at: [sourceIndexPath])
+                collectionView.insertItems(at: [destinationPath])
+                
+            }, completion: nil)
+            coordinator.drop(item.dragItem, toItemAt: destinationPath)
+        }
+    }
+        
 }
 
 extension ProductListPresenter{

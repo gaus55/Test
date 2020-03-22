@@ -12,7 +12,7 @@ class ProductListVC: UIViewController {
 
     //MARK:- referencing outlets
     @IBOutlet weak var productTableView: UITableView!
-    
+    @IBOutlet weak var switchView: UISwitch!
     
     //MARK:- declaring variable
     lazy var presenter = ProductListPresenter()
@@ -35,6 +35,11 @@ class ProductListVC: UIViewController {
 //MARK:- Table View Cell
 class productTblCell: UITableViewCell{
     @IBOutlet weak var productListCollectionView: UICollectionView!
+}
+
+///for table view cell for single product
+class productSingleCell: UITableViewCell{
+    @IBOutlet weak var lblProductName: UILabel!
 }
 
 //MARK:- productList CollectionView cell

@@ -32,9 +32,9 @@ struct product: Decodable{
 }
 
 struct headerSelected{
-    let showTablView: Bool?
-    let sectionExpanded: Bool?
-    let section: Int?
+    var showTablView: Bool?
+    var sectionExpanded: Bool?
+    var section: Int?
     var isPriceSelected: Bool?
     var isNameSelected: Bool?
 }

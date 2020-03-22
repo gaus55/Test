@@ -16,12 +16,19 @@ class ProductListPresenter: NSObject{
     var groupedArr = [String?:[product]]()
     var arrHeaderSelection = [headerSelected]()
     var arrCategoryName = [String]()
+    var showTableView = false
     
     //MARK:- initilization for presenter
     func setPresenterPreference(){
         self.viewParent?.productTableView.delegate = self
         self.viewParent?.productTableView.dataSource = self
         getProductList()
+        self.viewParent?.switchView.addTarget(self, action: #selector(switchTapped(sender:)), for: .touchUpInside)
+    }
+    
+    @objc func switchTapped(sender: UISwitch){
+       self.showTableView = sender.isOn == true ? false : true
+        self.viewParent?.productTableView.reloadData()
     }
 }
 
@@ -31,20 +38,39 @@ extension ProductListPresenter: UITableViewDelegate, UITableViewDataSource{
         return self.arrCategoryName.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.showTableView == true{
+            return self.groupedArr[self.arrCategoryName[section]]?.count ?? 0
+        }
         return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        
+        if self.showTableView == true{ /// for table view cell
+            guard let cell = self.viewParent?.productTableView.dequeueReusableCell(withIdentifier: "productSingleCell") as? productSingleCell else{return UITableViewCell()}
+            let ent = self.groupedArr[self.arrCategoryName[indexPath.section]]
+            cell.lblProductName.text = ent?[indexPath.row].name
+            return cell
+        }
+        
+        ///for collection view cell
         guard let cell = self.viewParent?.productTableView.dequeueReusableCell(withIdentifier: "productTblCell") as? productTblCell else{return UITableViewCell()}
-        cell.productListCollectionView.tag = indexPath.section
-        cell.productListCollectionView.delegate = self
-        cell.productListCollectionView.dataSource = self
-        cell.productListCollectionView.reloadData()
+                   cell.productListCollectionView.tag = indexPath.section
+                   cell.productListCollectionView.delegate = self
+                   cell.productListCollectionView.dataSource = self
+                   cell.productListCollectionView.reloadData()
         return cell
     }
     
     //MARK:- table view delegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if self.showTableView == true{
+            if self.arrHeaderSelection[indexPath.section].sectionExpanded == true{
+                 return 40
+            }
+            return 0
+        }
         return 240
     }
     
@@ -67,6 +93,13 @@ extension ProductListPresenter: UITableViewDelegate, UITableViewDataSource{
         
         headerView.btnName.backgroundColor = self.arrHeaderSelection[section].isNameSelected == true ? UIColor.white : UIColor.clear
         headerView.btnName.setTitleColor(self.arrHeaderSelection[section].isNameSelected == true ? UIColor.black : UIColor.systemBlue, for: .normal)
+        
+        headerView.FilterView.isHidden = self.showTableView == true ? true : false
+        headerView.dropDownView.isHidden = self.showTableView == true ? false : true
+        
+        headerView.btnDownArrow.tag = section
+        headerView.dropDownImg.image = self.arrHeaderSelection[section].sectionExpanded == true ? UIImage(imageLiteralResourceName: "down") : UIImage(imageLiteralResourceName: "right")
+        headerView.btnDownArrow.addTarget(self, action: #selector(dropDownTapped(sender:)), for: .touchUpInside)
         return headerView
     }
 }
@@ -121,7 +154,7 @@ extension ProductListPresenter{
                     self.groupedArr = arrProductList.group(by: { $0.category })
                     
                     let ent = headerSelected(showTablView: false, sectionExpanded: false, section: nil, isPriceSelected: false, isNameSelected: false)
-                    var computeArray: Array<headerSelected> = Array(repeating: ent, count: self.arrCategoryName.count)
+                    let computeArray: Array<headerSelected> = Array(repeating: ent, count: self.arrCategoryName.count)
                     self.arrHeaderSelection = computeArray
                     
                     DispatchQueue.main.async {
@@ -143,7 +176,18 @@ extension ProductListPresenter{
         self.arrHeaderSelection[sender.tag].isPriceSelected = sender.accessibilityHint == "Price" ? true : false
         self.arrHeaderSelection[sender.tag].isNameSelected = sender.accessibilityHint == "Name" ? true : false
         self.viewParent?.productTableView.reloadSections([sender.tag], with: .automatic)
-        
+    }
+    
+    ///btn drop down tapped in header view
+    @objc func dropDownTapped(sender: UIButton){
+        for (index,_) in self.arrHeaderSelection.enumerated(){
+            if index == sender.tag{
+                self.arrHeaderSelection[index].sectionExpanded = !self.arrHeaderSelection[index].sectionExpanded!
+            }else{
+                self.arrHeaderSelection[index].sectionExpanded = false
+            }
+        }
+        self.viewParent?.productTableView.reloadData()
     }
 }
 

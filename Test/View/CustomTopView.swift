@@ -16,9 +16,10 @@ class CustomTopView: UIView {
     @IBOutlet weak var btnPrice: UIButton!
     @IBOutlet weak var lblProductName: UILabel!
     
-    var bIsDisplayMenuOption = true
-    
-    
+    @IBOutlet weak var btnDownArrow: UIButton!
+    @IBOutlet weak var FilterView: GACustomView!
+    @IBOutlet weak var dropDownImg: UIImageView!
+    @IBOutlet weak var dropDownView: UIView!
     //MARK:- View life cycle
     
     override init(frame: CGRect) {
